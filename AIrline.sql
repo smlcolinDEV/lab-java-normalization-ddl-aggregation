@@ -56,8 +56,8 @@ INSERT INTO flights( flight_number, mileage, aircraft_id)
         ('DL143',135,1),
         ('DL122',4370,2),
         ('DL53',2078,3),
-        ('DL222',4370,2),
-        ('DL37',1765,2)
+        ('DL222',1765,3),
+        ('DL37',531,1)
 ;
 
 INSERT INTO bookings(id, customer_id, flight_number)
