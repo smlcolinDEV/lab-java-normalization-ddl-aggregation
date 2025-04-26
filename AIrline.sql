@@ -17,8 +17,7 @@ CREATE TABLE aircrafts(
 
 CREATE TABLE flights
 (
-    flight_id             INT AUTO_INCREMENT PRIMARY KEY,
-    flight_number  varchar(5),
+    flight_number  varchar(5) PRIMARY KEY ,
     mileage INT,
     aircraft_id    INT,
     FOREIGN KEY (aircraft_id) REFERENCES aircrafts(id)
@@ -28,8 +27,8 @@ CREATE TABLE bookings
 (
     id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT,
-    flight_number INT,
-    FOREIGN KEY (flight_number) REFERENCES flights(flight_id),
+    flight_number varchar(5),
+    FOREIGN KEY (flight_number) REFERENCES flights(flight_number),
     FOREIGN KEY (customer_id) REFERENCES customers(id)
 );
 
@@ -52,34 +51,34 @@ INSERT INTO aircrafts(id, name, total_seats)
         (3,'Boeing 777',264)
 ;
 
-INSERT INTO flights(flight_id, flight_number, mileage, aircraft_id)
+INSERT INTO flights( flight_number, mileage, aircraft_id)
     VALUES
-        (1,'DL143',135,1),
-        (2,'DL122',4370,2),
-        (3,'DL53',2078,3),
-        (4,'DL222',4370,2),
-        (5,'DL37',1765,2)
+        ('DL143',135,1),
+        ('DL122',4370,2),
+        ('DL53',2078,3),
+        ('DL222',4370,2),
+        ('DL37',1765,2)
 ;
 
 INSERT INTO bookings(id, customer_id, flight_number)
     VALUES
-        (1,1,1),
-        (2,1,2),
-        (3,2,2),
-        (4,1,1),
-        (5,3,2),
-        (6,3,3),
-        (7,1,1),
-        (8,5,1),
-        (9,1,1),
-        (10,3,4),
-        (11,4,1),
-        (12,5,1),
-        (13,6,2),
-        (14,7,2),
-        (15,4,2),
-        (16,5,5),
-        (17,8,4)
+        (1, 1, 'DL143'),
+        (2, 1, 'DL122'),
+        (3, 2, 'DL122'),
+        (4, 1, 'DL143'),
+        (5, 3, 'DL122'),
+        (6, 3, 'DL53'),
+        (7, 1, 'DL143'),
+        (8, 4, 'DL143'),
+        (9, 1, 'DL143'),
+        (10, 3, 'DL222'),
+        (11, 5, 'DL143'),
+        (12, 4, 'DL143'),
+        (13, 6, 'DL222'),
+        (14, 7, 'DL222'),
+        (15, 5, 'DL122'),
+        (16, 4, 'DL37'),
+        (17, 8, 'DL222');
 ;
 
 SELECT COUNT(DISTINCT flight_number) FROM flights;
@@ -99,13 +98,13 @@ SELECT * FROM flights WHERE mileage BETWEEN 300 AND 2000;
 SELECT c.status, AVG(f.mileage)
 FROM bookings b
          JOIN customers c ON b.customer_id = c.id
-         JOIN flights f ON b.flight_number = f.flight_id
+         JOIN flights f ON b.flight_number = f.flight_number
 GROUP BY c.status;
 
 SELECT a.name, COUNT(*) AS total_bookings
 FROM bookings b
          JOIN customers c ON b.customer_id = c.id
-         JOIN flights f ON b.flight_number = f.flight_id
+         JOIN flights f ON b.flight_number = f.flight_number
          JOIN aircrafts a ON f.aircraft_id = a.id
 WHERE c.status = 'Gold'
 GROUP BY a.name
